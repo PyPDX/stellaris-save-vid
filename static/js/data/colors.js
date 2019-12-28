@@ -1,0 +1,25 @@
+{
+    // https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_HSL
+    const hsv2hsl = (h, s, v, l = v - v * s / 2, m = Math.min(l, 1 - l)) => [h, m ? (v - l) / m : 0, l];
+
+    let colors = null;
+    $.get('static/data/colors.json')
+        .done(function (response) {
+            colors = response;
+            console.log(colors);
+        });
+
+    function getMapColor(name) {
+        let method = colors.colors[name].__modifiers__.map[0];
+        let values = colors.colors[name].map;
+        if (method === 'hsv') {
+            method = 'hsl';
+            values = hsv2hsl(...values);
+        }
+        if (method === 'hsl') {
+            values[1] = `${values[1] * 100}%`;
+            values[2] = `${values[2] * 100}%`;
+        }
+        return `${method}(${values})`;
+    }
+}
