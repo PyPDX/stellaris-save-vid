@@ -99,6 +99,21 @@
                         if (!empire)
                             return null;
 
+                        return getColor(stripString(empire.flag.colors[1]));
+                    });
+                svg.append('circle')
+                    .attr('r', radius - 2)
+                    .attr('cx', radius)
+                    .attr('cy', radius)
+                    .attr('fill', star => {
+                        let starbase = starbases[star.starbase];
+                        if (!starbase)
+                            return null;
+
+                        let empire = empires[starbase.owner];
+                        if (!empire)
+                            return null;
+
                         return getColor(stripString(empire.flag.colors[0]));
                     })
                     .append('title')
