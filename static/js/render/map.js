@@ -73,7 +73,7 @@ class Map {
 
     static _renderHyperlane(line) {
         line
-            .attr('stroke', 'black')
+            .attr('stroke', hl => hl.color)
             .attr('x1', hl => hl.x1)
             .attr('y1', hl => hl.y1)
             .attr('x2', hl => hl.x2)
