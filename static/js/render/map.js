@@ -114,6 +114,14 @@ class Map {
             const stars = BaseMapObject.serializeList(gamestate.starList());
             const hyperlanes = BaseMapObject.serializeList(gamestate.hyperlanes());
             const map = new Map(stars, hyperlanes);
+
+            // debug
+            window.stellaris = {
+                data: data,
+                gamestate: gamestate,
+                map: map,
+            };
+
             map.renderTo(selector);
         };
     }
