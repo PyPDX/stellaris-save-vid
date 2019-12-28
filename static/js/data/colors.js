@@ -1,16 +1,11 @@
-{
+class Colors {
     // https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_HSL
-    const hsv2hsl = (h, s, v, l = v - v * s / 2, m = Math.min(l, 1 - l)) => [h, m ? (v - l) / m : 0, l];
+    static hsv2hsl = (h, s, v, l = v - v * s / 2, m = Math.min(l, 1 - l)) => [h, m ? (v - l) / m : 0, l];
 
-    let colors = null;
-    $.get('static/data/colors.json')
-        .done(function (response) {
-            colors = response;
-            console.log(colors);
-        });
+    static colors = null;
 
-    function getMapColor(name) {
-        const colorDefinition = colors.colors[name];
+    static get(name) {
+        const colorDefinition = this.colors.colors[name];
         if (!colorDefinition)
             return null;
 
@@ -18,7 +13,7 @@
         let values = colorDefinition.map;
         if (method === 'hsv') {
             method = 'hsl';
-            values = hsv2hsl(...values);
+            values = this.hsv2hsl(...values);
         }
         if (method === 'hsl') {
             values[1] = `${values[1] * 100}%`;
@@ -27,3 +22,8 @@
         return `${method}(${values})`;
     }
 }
+
+$.get('static/data/colors.json')
+    .done(function (response) {
+        Colors.colors = response;
+    });

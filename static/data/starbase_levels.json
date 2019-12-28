@@ -1,0 +1,8 @@
+{
+    "starbase_level_outpost": 0,
+    "starbase_level_starport": 1,
+    "starbase_level_starhold": 2,
+    "starbase_level_starfortress": 3,
+    "starbase_level_citadel": 4,
+    "starbase_level_caravaneer": 10
+}

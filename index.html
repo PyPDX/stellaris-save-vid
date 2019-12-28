@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<input type="file" onchange="loadFile(this, drawMap('#map'));">
+<input type="file" onchange="loadFile(this, Map.renderCallback('#map'));">
 <div>
     <svg id="map" width="1024" height="768"></svg>
 </div>
@@ -19,6 +19,11 @@
 <script type="text/javascript" src="static/js/util/file.js"></script>
 <script type="text/javascript" src="static/js/data/string.js"></script>
 <script type="text/javascript" src="static/js/data/colors.js"></script>
-<script type="text/javascript" src="static/js/game/map.js"></script>
+<script type="text/javascript" src="static/js/game/_base.js"></script>
+<script type="text/javascript" src="static/js/game/star.js"></script>
+<script type="text/javascript" src="static/js/game/empire.js"></script>
+<script type="text/javascript" src="static/js/game/starbase.js"></script>
+<script type="text/javascript" src="static/js/game/gamestate.js"></script>
+<script type="text/javascript" src="static/js/render/map.js"></script>
 </body>
 </html>
