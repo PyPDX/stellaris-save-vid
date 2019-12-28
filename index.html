@@ -40,7 +40,7 @@
     }
 
     let colors = null;
-    $.get('/static/data/colors.json')
+    $.get('static/data/colors.json')
         .done(function (response) {
             colors = response;
             console.log(colors);
