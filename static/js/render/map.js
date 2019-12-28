@@ -1,5 +1,7 @@
 class Map {
-    static radius = 5;
+    static padding = 20;
+    static innerRadius = 2;
+    static radius = 3;
 
     constructor(stars, hyperlanes) {
         this.stars = stars;
@@ -28,10 +30,10 @@ class Map {
         const yMin = this._yMin();
         const yMax = this._yMax();
         return `${[
-            xMin - Map.radius,
-            yMin - Map.radius,
-            xMax - xMin + Map.radius * 2,
-            yMax - yMin + Map.radius * 2,
+            xMin - Map.padding,
+            yMin - Map.padding,
+            xMax - xMin + Map.padding * 2,
+            yMax - yMin + Map.padding * 2,
         ]}`;
     }
 
@@ -64,7 +66,7 @@ class Map {
         ;
         svg
             .append('circle')
-            .attr('r', this.radius - 2)
+            .attr('r', this.innerRadius)
             .attr('cx', 0)
             .attr('cy', 0)
             .attr('fill', star => star.color0)
