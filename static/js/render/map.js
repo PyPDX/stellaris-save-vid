@@ -38,10 +38,12 @@ class Map {
         svg
             .attr('x', star => star.x)
             .attr('y', star => star.y)
-            .attr('overflow', 'visible');
+            .attr('overflow', 'visible')
+        ;
         svg
             .append('title')
-            .text(star => star.name);
+            .text(star => star.name)
+        ;
         svg
             .filter(star => star.starbase_level && star.starbase_level > 0)
             .append('rect')
@@ -49,20 +51,23 @@ class Map {
             .attr('y', -this.radius)
             .attr('width', this.radius * 2)
             .attr('height', this.radius * 2)
-            .attr('fill', star => star.color1);
+            .attr('fill', star => star.color1)
+        ;
         svg
             .filter(star => star.starbase_level === 0)
             .append('circle')
             .attr('r', this.radius)
             .attr('cx', 0)
             .attr('cy', 0)
-            .attr('fill', star => star.color1);
+            .attr('fill', star => star.color1)
+        ;
         svg
             .append('circle')
             .attr('r', this.radius - 2)
             .attr('cx', 0)
             .attr('cy', 0)
-            .attr('fill', star => star.color0);
+            .attr('fill', star => star.color0)
+        ;
     }
 
     renderTo(selector) {
@@ -70,15 +75,18 @@ class Map {
 
         const map = d3.select(selector);
 
-        const innerSvg = map.append('svg')
-            .attr('viewBox', this._viewBox());
+        const innerSvg = map
+            .append('svg')
+            .attr('viewBox', this._viewBox())
+        ;
 
         innerSvg
             .selectAll('svg')
             .data(this.data)
             .enter()
             .append('svg')
-            .call(svg => Map._renderStar(svg));
+            .call(svg => Map._renderStar(svg))
+        ;
     }
 
     static renderCallback(selector) {
