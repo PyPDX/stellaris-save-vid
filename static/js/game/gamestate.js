@@ -10,4 +10,8 @@ class Gamestate {
     starList() {
         return Object.values(this.stars);
     }
+
+    hyperlanes() {
+        return Hyperlane.fromGamestate(this);
+    }
 }

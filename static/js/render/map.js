@@ -1,24 +1,25 @@
 class Map {
     static radius = 5;
 
-    constructor(data) {
-        this.data = data;
+    constructor(stars, hyperlanes) {
+        this.stars = stars;
+        this.hyperlanes = hyperlanes;
     }
 
     _xMin() {
-        return Math.min(...this.data.map(star => star.x));
+        return Math.min(...this.stars.map(star => star.x));
     }
 
     _xMax() {
-        return Math.max(...this.data.map(star => star.x));
+        return Math.max(...this.stars.map(star => star.x));
     }
 
     _yMin() {
-        return Math.min(...this.data.map(star => star.y));
+        return Math.min(...this.stars.map(star => star.y));
     }
 
     _yMax() {
-        return Math.max(...this.data.map(star => star.y));
+        return Math.max(...this.stars.map(star => star.y));
     }
 
     _viewBox() {
@@ -70,6 +71,16 @@ class Map {
         ;
     }
 
+    static _renderHyperlane(line) {
+        line
+            .attr('stroke', 'black')
+            .attr('x1', hl => hl.x1)
+            .attr('y1', hl => hl.y1)
+            .attr('x2', hl => hl.x2)
+            .attr('y2', hl => hl.y2)
+        ;
+    }
+
     renderTo(selector) {
         $(selector).html('');
 
@@ -81,8 +92,16 @@ class Map {
         ;
 
         innerSvg
+            .selectAll('line')
+            .data(this.hyperlanes)
+            .enter()
+            .append('line')
+            .call(line => Map._renderHyperlane(line))
+        ;
+
+        innerSvg
             .selectAll('svg')
-            .data(this.data)
+            .data(this.stars)
             .enter()
             .append('svg')
             .call(svg => Map._renderStar(svg))
@@ -92,8 +111,9 @@ class Map {
     static renderCallback(selector) {
         return data => {
             const gamestate = new Gamestate(data);
-            const serializedData = BaseMapObject.serializeList(gamestate.starList());
-            const map = new Map(serializedData);
+            const stars = BaseMapObject.serializeList(gamestate.starList());
+            const hyperlanes = BaseMapObject.serializeList(gamestate.hyperlanes());
+            const map = new Map(stars, hyperlanes);
             map.renderTo(selector);
         };
     }

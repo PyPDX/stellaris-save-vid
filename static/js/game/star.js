@@ -15,6 +15,12 @@ class Star extends BaseMapObject {
         return this._gamestate.starbases[this._data.starbase];
     }
 
+    hyperlaneTo() {
+        if (!this._data.hyperlane)
+            return [];
+        return this._data.hyperlane.map(val => val.to);
+    }
+
     _serialize_self() {
         return {
             name: this.name(),
