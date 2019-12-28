@@ -74,8 +74,8 @@
             const starbases = data.starbases;
             const stars = data.galactic_object;
 
-            const xMin = Math.min(...Object.values(stars).map(star => star.coordinate.x));
-            const xMax = Math.max(...Object.values(stars).map(star => star.coordinate.x));
+            const xMin = Math.min(...Object.values(stars).map(star => -star.coordinate.x));
+            const xMax = Math.max(...Object.values(stars).map(star => -star.coordinate.x));
             const yMin = Math.min(...Object.values(stars).map(star => star.coordinate.y));
             const yMax = Math.max(...Object.values(stars).map(star => star.coordinate.y));
 
@@ -84,7 +84,7 @@
 
             function addStar(svg) {
                 svg
-                    .attr('x', star => star.coordinate.x)
+                    .attr('x', star => -star.coordinate.x)
                     .attr('y', star => star.coordinate.y);
                 svg.append('circle')
                     .attr('r', radius)
