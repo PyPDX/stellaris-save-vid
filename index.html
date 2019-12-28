@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Stellaris Save Visualizer</title>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 <body>
-<input type="file" onchange="loadFile(this, console.log);">
+<input type="file" onchange="loadFile(this, drawMap('#map'));">
+<div>
+    <svg id="map" width="1024" height="768"></svg>
+</div>
 
 <script type="text/javascript">
     // https://stackoverflow.com/a/42316936/3248736
@@ -25,6 +30,50 @@
         };
 
         reader.readAsText(file);
+    }
+
+    function drawMap(selector) {
+        const radius = 5;
+        const map = d3.select(selector);
+
+        function callback(data) {
+            console.log(data);
+
+            const stars = data.galactic_object;
+
+            const xMin = Math.min(...Object.values(stars).map(star => star.coordinate.x));
+            const xMax = Math.max(...Object.values(stars).map(star => star.coordinate.x));
+            const yMin = Math.min(...Object.values(stars).map(star => star.coordinate.y));
+            const yMax = Math.max(...Object.values(stars).map(star => star.coordinate.y));
+
+            const innerSvg = map.append('svg')
+                .attr('viewBox', `${xMin} ${yMin} ${xMax - xMin + radius * 2} ${yMax - yMin + radius * 2}`);
+
+            function addStar(svg) {
+                svg
+                    .attr('x', star => star.coordinate.x)
+                    .attr('y', star => star.coordinate.y);
+                svg.append('circle')
+                    .attr('r', radius)
+                    .attr('cx', radius)
+                    .attr('cy', radius)
+                    .append('title')
+                    .text(star => {
+                        let name = star.name;
+                        name = name.substring(1, name.length - 1);
+                        return name;
+                    });
+            }
+
+            innerSvg
+                .selectAll('svg')
+                .data(Object.values(stars))
+                .enter()
+                .append('svg')
+                .call(addStar);
+        }
+
+        return callback;
     }
 </script>
 </body>
