@@ -10,8 +10,12 @@
         });
 
     function getMapColor(name) {
-        let method = colors.colors[name].__modifiers__.map[0];
-        let values = colors.colors[name].map;
+        const colorDefinition = colors.colors[name];
+        if (!colorDefinition)
+            return null;
+
+        let method = colorDefinition.__modifiers__.map[0];
+        let values = colorDefinition.map;
         if (method === 'hsv') {
             method = 'hsl';
             values = hsv2hsl(...values);
