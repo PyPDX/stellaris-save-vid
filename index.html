@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Stellaris Save Visualizer</title>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
@@ -14,6 +17,10 @@
 </div>
 
 <script type="text/javascript">
+    function stripString(str) {
+        return str.substring(1, str.length - 1);
+    }
+
     // https://stackoverflow.com/a/42316936/3248736
     function loadFile(input, callback) {
         const file = input.files[0];
@@ -32,6 +39,30 @@
         reader.readAsText(file);
     }
 
+    let colors = null;
+    $.get('/static/data/colors.json')
+        .done(function (response) {
+            colors = response;
+            console.log(colors);
+        });
+
+    // https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_HSL
+    const hsv2hsl = (h, s, v, l = v - v * s / 2, m = Math.min(l, 1 - l)) => [h, m ? (v - l) / m : 0, l];
+
+    function getColor(name) {
+        let method = colors.colors[name].__modifiers__.map[0];
+        let values = colors.colors[name].map;
+        if (method === 'hsv') {
+            method = 'hsl';
+            values = hsv2hsl(...values);
+        }
+        if (method === 'hsl') {
+            values[1] = `${values[1] * 100}%`;
+            values[2] = `${values[2] * 100}%`;
+        }
+        return `${method}(${values})`;
+    }
+
     function drawMap(selector) {
         const radius = 5;
         const map = d3.select(selector);
@@ -39,6 +70,8 @@
         function callback(data) {
             console.log(data);
 
+            const empires = data.country;
+            const starbases = data.starbases;
             const stars = data.galactic_object;
 
             const xMin = Math.min(...Object.values(stars).map(star => star.coordinate.x));
@@ -57,12 +90,19 @@
                     .attr('r', radius)
                     .attr('cx', radius)
                     .attr('cy', radius)
+                    .attr('fill', star => {
+                        let starbase = starbases[star.starbase];
+                        if (!starbase)
+                            return null;
+
+                        let empire = empires[starbase.owner];
+                        if (!empire)
+                            return null;
+
+                        return getColor(stripString(empire.flag.colors[0]));
+                    })
                     .append('title')
-                    .text(star => {
-                        let name = star.name;
-                        name = name.substring(1, name.length - 1);
-                        return name;
-                    });
+                    .text(star => stripString(star.name));
             }
 
             innerSvg
