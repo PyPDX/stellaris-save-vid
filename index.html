@@ -86,6 +86,8 @@
                 svg
                     .attr('x', star => -star.coordinate.x)
                     .attr('y', star => star.coordinate.y);
+                svg.append('title')
+                    .text(star => stripString(star.name));
                 svg.append('circle')
                     .attr('r', radius)
                     .attr('cx', radius)
@@ -115,9 +117,7 @@
                             return null;
 
                         return getColor(stripString(empire.flag.colors[0]));
-                    })
-                    .append('title')
-                    .text(star => stripString(star.name));
+                    });
             }
 
             innerSvg
