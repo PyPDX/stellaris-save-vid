@@ -27,8 +27,8 @@ class Map {
         const yMin = this._yMin();
         const yMax = this._yMax();
         return `${[
-            xMin,
-            yMin,
+            xMin - Map.radius,
+            yMin - Map.radius,
             xMax - xMin + Map.radius * 2,
             yMax - yMin + Map.radius * 2,
         ]}`;
@@ -37,13 +37,16 @@ class Map {
     static _renderStar(svg) {
         svg
             .attr('x', star => star.x)
-            .attr('y', star => star.y);
+            .attr('y', star => star.y)
+            .attr('overflow', 'visible');
         svg
             .append('title')
             .text(star => star.name);
         svg
             .filter(star => star.starbase_level && star.starbase_level > 0)
             .append('rect')
+            .attr('x', -this.radius)
+            .attr('y', -this.radius)
             .attr('width', this.radius * 2)
             .attr('height', this.radius * 2)
             .attr('fill', star => star.color1);
@@ -51,14 +54,14 @@ class Map {
             .filter(star => star.starbase_level === 0)
             .append('circle')
             .attr('r', this.radius)
-            .attr('cx', this.radius)
-            .attr('cy', this.radius)
+            .attr('cx', 0)
+            .attr('cy', 0)
             .attr('fill', star => star.color1);
         svg
             .append('circle')
             .attr('r', this.radius - 2)
-            .attr('cx', this.radius)
-            .attr('cy', this.radius)
+            .attr('cx', 0)
+            .attr('cy', 0)
             .attr('fill', star => star.color0);
     }
 
