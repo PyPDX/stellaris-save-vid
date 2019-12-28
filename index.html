@@ -118,7 +118,9 @@
                     .attr('width', radius * 2)
                     .attr('height', radius * 2)
                     .attr('fill', getColor(1));
-                svg.append('circle')
+                svg
+                    .filter(star => getStarbase(star) && !isStarbaseUpgraded(star))
+                    .append('circle')
                     .attr('r', radius)
                     .attr('cx', radius)
                     .attr('cy', radius)
