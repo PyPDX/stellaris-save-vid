@@ -68,6 +68,7 @@
         const map = d3.select(selector);
 
         function callback(data) {
+            $(selector).html('');
             console.log(data);
 
             const empires = data.country;
