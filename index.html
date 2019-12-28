@@ -85,6 +85,10 @@
                 let starbase = getStarbase(star);
                 return starbase && stripString(starbase.level);
             };
+            const isStarbaseUpgraded = star => {
+                let level = getStarbaseLevel(star);
+                return level && level !== 'starbase_level_outpost';
+            };
             const getEmpire = star => {
                 let starbase = getStarbase(star);
                 return starbase && empires[starbase.owner];
@@ -109,7 +113,7 @@
                 svg.append('title')
                     .text(getName);
                 svg
-                    .filter(star => getStarbaseLevel(star) !== 'starbase_level_outpost')
+                    .filter(isStarbaseUpgraded)
                     .append('rect')
                     .attr('width', radius * 2)
                     .attr('height', radius * 2)
