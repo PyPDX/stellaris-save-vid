@@ -49,7 +49,7 @@
     // https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_HSL
     const hsv2hsl = (h, s, v, l = v - v * s / 2, m = Math.min(l, 1 - l)) => [h, m ? (v - l) / m : 0, l];
 
-    function getColor(name) {
+    function getMapColor(name) {
         let method = colors.colors[name].__modifiers__.map[0];
         let values = colors.colors[name].map;
         if (method === 'hsv') {
@@ -74,50 +74,45 @@
             const starbases = data.starbases;
             const stars = data.galactic_object;
 
-            const xMin = Math.min(...Object.values(stars).map(star => -star.coordinate.x));
-            const xMax = Math.max(...Object.values(stars).map(star => -star.coordinate.x));
-            const yMin = Math.min(...Object.values(stars).map(star => star.coordinate.y));
-            const yMax = Math.max(...Object.values(stars).map(star => star.coordinate.y));
+            const getCoordX = star => -star.coordinate.x;
+            const getCoordY = star => star.coordinate.y;
+            const getName = star => stripString(star.name);
+            const getStarbase = star => {
+                return starbases[star.starbase];
+            };
+            const getEmpire = star => {
+                let starbase = getStarbase(star);
+                return starbase && empires[starbase.owner];
+            };
+            const getColor = i => star => {
+                let empire = getEmpire(star);
+                return empire && getMapColor(stripString(empire.flag.colors[i]));
+            };
+
+            const xMin = Math.min(...Object.values(stars).map(getCoordX));
+            const xMax = Math.max(...Object.values(stars).map(getCoordX));
+            const yMin = Math.min(...Object.values(stars).map(getCoordY));
+            const yMax = Math.max(...Object.values(stars).map(getCoordY));
 
             const innerSvg = map.append('svg')
                 .attr('viewBox', `${xMin} ${yMin} ${xMax - xMin + radius * 2} ${yMax - yMin + radius * 2}`);
 
             function addStar(svg) {
                 svg
-                    .attr('x', star => -star.coordinate.x)
-                    .attr('y', star => star.coordinate.y);
+                    .attr('x', getCoordX)
+                    .attr('y', getCoordY);
                 svg.append('title')
-                    .text(star => stripString(star.name));
+                    .text(getName);
                 svg.append('circle')
                     .attr('r', radius)
                     .attr('cx', radius)
                     .attr('cy', radius)
-                    .attr('fill', star => {
-                        let starbase = starbases[star.starbase];
-                        if (!starbase)
-                            return null;
-
-                        let empire = empires[starbase.owner];
-                        if (!empire)
-                            return null;
-
-                        return getColor(stripString(empire.flag.colors[1]));
-                    });
+                    .attr('fill', getColor(1));
                 svg.append('circle')
                     .attr('r', radius - 2)
                     .attr('cx', radius)
                     .attr('cy', radius)
-                    .attr('fill', star => {
-                        let starbase = starbases[star.starbase];
-                        if (!starbase)
-                            return null;
-
-                        let empire = empires[starbase.owner];
-                        if (!empire)
-                            return null;
-
-                        return getColor(stripString(empire.flag.colors[0]));
-                    });
+                    .attr('fill', getColor(0));
             }
 
             innerSvg
