@@ -1,4 +1,4 @@
-class Empire extends BaseMapObject {
+class Empire extends BaseIdMapObject {
     color(i) {
         return Colors.get(stripString(this._data.flag.colors[i]));
     }

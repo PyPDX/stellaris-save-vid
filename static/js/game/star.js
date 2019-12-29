@@ -1,4 +1,4 @@
-class Star extends BaseMapObject {
+class Star extends BaseIdMapObject {
     name() {
         return stripString(this._data.name);
     }

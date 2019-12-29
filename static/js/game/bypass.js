@@ -1,4 +1,4 @@
-class Bypass extends BaseMapObject {
+class Bypass extends BaseIdMapObject {
     static TYPE_WORMHOLE = 'wormhole';
     static TYPE_GATEWAY = 'gateway';
     static TYPE_LGATE = 'lgate';

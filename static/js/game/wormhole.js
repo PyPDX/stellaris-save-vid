@@ -1,4 +1,4 @@
-class Wormhole extends BaseMapObject {
+class Wormhole extends BaseIdMapObject {
     bypassId() {
         return this._data.bypass;
     }

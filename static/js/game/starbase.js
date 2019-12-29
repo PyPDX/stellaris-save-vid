@@ -1,4 +1,4 @@
-class Starbase extends BaseMapObject {
+class Starbase extends BaseIdMapObject {
     static levels = null;
 
     empire() {

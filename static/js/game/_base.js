@@ -1,12 +1,4 @@
 class BaseMapObject {
-    static loadDict(cls, data, ...args) {
-        return Object.fromEntries(Object.entries(data).map(([id, val]) => [id, new cls(val, ...args)]));
-    }
-
-    static loadList(cls, data, ...args) {
-        return data.map(val => new cls(val, ...args));
-    }
-
     constructor(data, gamestate) {
         this._data = data;
         this._gamestate = gamestate;
@@ -32,7 +24,23 @@ class BaseMapObject {
         return result;
     }
 
-    static serializeList(data) {
-        return Object.values(data).map(item => item.serialize());
+    static serializeList(objects) {
+        return Object.values(objects)
+            .map(item => item.serialize())
+            ;
+    }
+}
+
+class BaseIdMapObject extends BaseMapObject {
+    static loadDict(cls, data, ...args) {
+        return Object.fromEntries(
+            Object.entries(data)
+                .map(([id, val]) => [id, new cls(id, val, ...args)]),
+        );
+    }
+
+    constructor(id, data, gamestate) {
+        super(data, gamestate);
+        this.id = id;
     }
 }
