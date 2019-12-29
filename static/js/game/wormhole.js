@@ -22,10 +22,10 @@ class Wormhole extends BaseIdMapObject {
     // --- related ---
 
     linkId() {
-        return this.bypass().link().wormholeId();
+        return this.bypass() && this.bypass().link() && this.bypass().link().wormholeId();
     }
 
     link() {
-        return this.bypass().link().wormhole();
+        return this._gamestate.wormholes[this.linkId()];
     }
 }

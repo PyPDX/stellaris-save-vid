@@ -40,15 +40,27 @@ class Star extends BaseIdMapObject {
     _serialize_reference_data() {
         const result = {};
 
-        if (this.starbase()) {
-            result.starbase_level = this.starbase().level();
+        const starbase = this.starbase();
+        if (starbase) {
+            result.starbase_level = starbase.level();
+        }
 
-            if (this.starbase().empire()) {
-                result.color0 = this.starbase().empire().color(0);
-                result.color1 = this.starbase().empire().color(1);
-            }
+        const empire = this.empire();
+        if (empire) {
+            result.color0 = empire.color(0);
+            result.color1 = empire.color(1);
         }
 
         return result;
+    }
+
+    // --- related ---
+
+    empireId() {
+        return this.starbase() && this.starbase().empireId();
+    }
+
+    empire() {
+        return this._gamestate.empires[this.empireId()];
     }
 }
