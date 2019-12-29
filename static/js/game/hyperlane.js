@@ -4,13 +4,7 @@ class Hyperlane extends BaseMapObject {
         this._type = type;
     }
 
-    star0() {
-        return this._gamestate.stars[this._data[0]];
-    }
-
-    star1() {
-        return this._gamestate.stars[this._data[1]];
-    }
+    // --- data fields ---
 
     color() {
         switch (this._type) {
@@ -21,6 +15,24 @@ class Hyperlane extends BaseMapObject {
             default:
                 return 'red';
         }
+    }
+
+    // --- reference fields ---
+
+    star0Id() {
+        return this._data[0];
+    }
+
+    star0() {
+        return this._gamestate.stars[this.star0Id()];
+    }
+
+    star1Id() {
+        return this._data[1];
+    }
+
+    star1() {
+        return this._gamestate.stars[this.star1Id()];
     }
 
     _serialize_self() {

@@ -1,4 +1,6 @@
 class Empire extends BaseIdMapObject {
+    // --- data fields ---
+
     color(i) {
         return Colors.get(stripString(this._data.flag.colors[i]));
     }
@@ -9,4 +11,6 @@ class Empire extends BaseIdMapObject {
             color1: this.color(1),
         };
     }
+
+    // --- reference fields ---
 }

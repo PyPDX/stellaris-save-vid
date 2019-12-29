@@ -1,4 +1,6 @@
 class Star extends BaseIdMapObject {
+    // --- data fields ---
+
     name() {
         return stripString(this._data.name);
     }
@@ -11,9 +13,15 @@ class Star extends BaseIdMapObject {
         return this._data.coordinate.y;
     }
 
-    starbase() {
-        return this._gamestate.starbases[this._data.starbase];
+    _serialize_self() {
+        return {
+            name: this.name(),
+            x: this.x(),
+            y: this.y(),
+        };
     }
+
+    // --- reference fields ---
 
     hyperlaneTo() {
         if (!this._data.hyperlane)
@@ -21,12 +29,12 @@ class Star extends BaseIdMapObject {
         return this._data.hyperlane.map(val => val.to);
     }
 
-    _serialize_self() {
-        return {
-            name: this.name(),
-            x: this.x(),
-            y: this.y(),
-        };
+    starbaseId() {
+        return this._data.starbase;
+    }
+
+    starbase() {
+        return this._gamestate.starbases[this.starbaseId()];
     }
 
     serialize() {

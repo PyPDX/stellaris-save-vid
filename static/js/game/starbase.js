@@ -1,9 +1,7 @@
 class Starbase extends BaseIdMapObject {
     static levels = null;
 
-    empire() {
-        return this._gamestate.empires[this._data.owner];
-    }
+    // --- data fields ---
 
     level() {
         return Starbase.levels[stripString(this._data.level)];
@@ -13,6 +11,24 @@ class Starbase extends BaseIdMapObject {
         return {
             starbase_level: this.level(),
         };
+    }
+
+    // --- reference fields ---
+
+    starId() {
+        return this._data.system;
+    }
+
+    star() {
+        return this._gamestate.stars[this.starId()];
+    }
+
+    empireId() {
+        return this._data.owner;
+    }
+
+    empire() {
+        return this._gamestate.empires[this.empireId()];
     }
 
     serialize() {

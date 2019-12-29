@@ -1,4 +1,8 @@
 class Wormhole extends BaseIdMapObject {
+    // --- data fields ---
+
+    // --- reference fields ---
+
     bypassId() {
         return this._data.bypass;
     }
