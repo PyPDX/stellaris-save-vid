@@ -51,19 +51,20 @@ class Hyperlane extends BaseMapObject {
     }
 
     static fromStars(stars, gamestate) {
-        return Object.entries(stars)
-            .map(([id0, star]) =>
+        return Object.values(stars)
+            .map(star =>
                 star.hyperlaneTo()
-                    .filter(id1 => id1 > id0)
-                    .map(id1 => [id0, id1]))
+                    .filter(id1 => id1 > star.id)
+                    .map(id1 => [star.id, id1]))
             .flat(1)
             .map(data => new Hyperlane('hyperlane', data, gamestate))
             ;
     }
 
     static fromWormholes(wormholes, gamestate) {
-        return Wormhole.pairs(wormholes)
-            .map(([wh0, wh1]) => [wh0.starId(), wh1.starId()])
+        return Object.values(wormholes)
+            .filter(wh => wh.linkId() > wh.id)
+            .map(wh => [wh.starId(), wh.link().starId()])
             .map(data => new Hyperlane('wormhole', data, gamestate))
             ;
     }

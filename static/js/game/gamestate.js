@@ -7,6 +7,11 @@ class Gamestate {
         this.starbases = BaseIdMapObject.loadDict(Starbase, this._data.starbases, this);
         this.bypasses = BaseIdMapObject.loadDict(Bypass, this._data.bypasses, this);
         this.wormholes = BaseIdMapObject.loadDict(Wormhole, this._data.natural_wormholes, this);
+
+        this.bypassWormholeIdMap = Object.fromEntries(
+            Object.entries(this.wormholes)
+                .map(([id, wormhole]) => [wormhole.bypassId(), id]),
+        );
     }
 
     starList() {

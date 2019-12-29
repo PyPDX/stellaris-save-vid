@@ -18,4 +18,12 @@ class Bypass extends BaseIdMapObject {
     link() {
         return this._gamestate.bypasses[this.linkId()];
     }
+
+    wormholeId() {
+        return this._gamestate.bypassWormholeIdMap[this.id];
+    }
+
+    wormhole() {
+        return this._gamestate.wormholes[this.wormholeId()];
+    }
 }
