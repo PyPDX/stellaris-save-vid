@@ -1,4 +1,6 @@
 class Star extends BaseIdMapObject {
+    static precursorNames = null;
+
     // --- data fields ---
 
     name() {
@@ -13,11 +15,34 @@ class Star extends BaseIdMapObject {
         return this._data.coordinate.y;
     }
 
+    precursorFlags() {
+        if (!this._data.flags)
+            return [];
+        return Object.keys(this._data.flags)
+            .filter(flag => flag in Star.precursorNames);
+    }
+
+    precursors() {
+        return this.precursorFlags()
+            .map(flag => Star.precursorNames[flag]);
+    }
+
+    tooltip() {
+        let tooltip = `${this.name()} (ID: ${this.id})`;
+        if (this.precursors().length)
+            tooltip += `\nPrecursors:`;
+        for (const precursor of this.precursors())
+            tooltip += `\n  ${precursor.name}`;
+        return tooltip;
+    }
+
     _serialize_data() {
         return {
             name: this.name(),
             x: this.x(),
             y: this.y(),
+            precursors: this.precursors(),
+            tooltip: this.tooltip(),
         };
     }
 
@@ -54,12 +79,6 @@ class Star extends BaseIdMapObject {
         return result;
     }
 
-    serialize() {
-        const result = super.serialize();
-        result.tooltip = `${this.name()} (ID: ${this.id})`;
-        return result;
-    }
-
     // --- related ---
 
     empireId() {
@@ -70,3 +89,8 @@ class Star extends BaseIdMapObject {
         return this._gamestate.empires[this.empireId()];
     }
 }
+
+$.get('static/data/precursors.json')
+    .done(response => {
+        Star.precursorNames = response;
+    });

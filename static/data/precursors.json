@@ -1,0 +1,30 @@
+{
+    "precursor_1": {
+        "name": "Vultaum",
+        "color": "gold"
+    },
+    "precursor_2": {
+        "name": "Yuht",
+        "color": "red"
+    },
+    "precursor_3": {
+        "name": "First League",
+        "color": "gray"
+    },
+    "precursor_4": {
+        "name": "Irassian",
+        "color": "turquoise"
+    },
+    "precursor_5": {
+        "name": "Cybrex",
+        "color": "blue"
+    },
+    "precursor_baol_1": {
+        "name": "Baol",
+        "color": "green"
+    },
+    "precursor_zroni_1": {
+        "name": "Zroni",
+        "color": "purple"
+    }
+}

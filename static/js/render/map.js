@@ -37,6 +37,19 @@ class Map {
         ]}`;
     }
 
+    static _renderPrecursors(svg) {
+        for (let i = 0; i < Object.keys(Star.precursorNames).length; i++) {
+            svg
+                .filter(star => star.precursors.length > i)
+                .append('circle')
+                .attr('r', 1)
+                .attr('cx', this.radius + 1 + Math.floor(i / 3))
+                .attr('cy', -2 + (i % 3) * 2)
+                .attr('fill', star => star.precursors[i].color)
+            ;
+        }
+    }
+
     static _renderStar(svg) {
         svg
             .attr('x', star => star.x)
@@ -46,6 +59,9 @@ class Map {
         svg
             .append('title')
             .text(star => star.tooltip)
+        ;
+        svg
+            .call(svg => this._renderPrecursors(svg))
         ;
         svg
             .filter(star => star.starbase_level && star.starbase_level > 0)

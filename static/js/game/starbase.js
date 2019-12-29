@@ -27,7 +27,7 @@ class Starbase extends BaseIdMapObject {
 }
 
 $.get('static/data/starbase_levels.json')
-    .done(function (response) {
+    .done(response => {
         Starbase.levels = response;
     })
 ;

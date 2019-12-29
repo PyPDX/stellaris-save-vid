@@ -24,7 +24,7 @@ class Colors {
 }
 
 $.get('static/data/colors.json')
-    .done(function (response) {
+    .done(response => {
         Colors.colors = response;
     })
 ;
