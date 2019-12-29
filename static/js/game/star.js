@@ -54,6 +54,12 @@ class Star extends BaseIdMapObject {
         return result;
     }
 
+    serialize() {
+        const result = super.serialize();
+        result.tooltip = `${this.name()} (ID: ${this.id})`;
+        return result;
+    }
+
     // --- related ---
 
     empireId() {

@@ -45,7 +45,7 @@ class Map {
         ;
         svg
             .append('title')
-            .text(star => star.name)
+            .text(star => star.tooltip)
         ;
         svg
             .filter(star => star.starbase_level && star.starbase_level > 0)
