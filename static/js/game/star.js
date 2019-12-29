@@ -23,7 +23,7 @@ class Star extends BaseIdMapObject {
 
     // --- reference fields ---
 
-    hyperlaneTo() {
+    linkIds() {
         if (!this._data.hyperlane)
             return [];
         return this._data.hyperlane.map(val => val.to);

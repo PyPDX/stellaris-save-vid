@@ -53,7 +53,7 @@ class Hyperlane extends BaseMapObject {
     static fromStars(stars, gamestate) {
         return Object.values(stars)
             .map(star =>
-                star.hyperlaneTo()
+                star.linkIds()
                     .filter(id1 => id1 > star.id)
                     .map(id1 => [star.id, id1]))
             .flat(1)
