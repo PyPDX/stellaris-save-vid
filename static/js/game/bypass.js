@@ -16,6 +16,6 @@ class Bypass extends BaseIdMapObject {
     }
 
     link() {
-        return this.linkId() && this._gamestate.bypasses[this.linkId()];
+        return this._gamestate.bypasses[this.linkId()];
     }
 }

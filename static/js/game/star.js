@@ -13,7 +13,7 @@ class Star extends BaseIdMapObject {
         return this._data.coordinate.y;
     }
 
-    _serialize_self() {
+    _serialize_data() {
         return {
             name: this.name(),
             x: this.x(),
@@ -37,9 +37,18 @@ class Star extends BaseIdMapObject {
         return this._gamestate.starbases[this.starbaseId()];
     }
 
-    serialize() {
-        return this._serialize_with(
-            this.starbase(),
-        );
+    _serialize_reference_data() {
+        const result = {};
+
+        if (this.starbase()) {
+            result.starbase_level = this.starbase().level();
+
+            if (this.starbase().empire()) {
+                result.color0 = this.starbase().empire().color(0);
+                result.color1 = this.starbase().empire().color(1);
+            }
+        }
+
+        return result;
     }
 }

@@ -4,24 +4,19 @@ class BaseMapObject {
         this._gamestate = gamestate;
     }
 
-    serialize() {
-        return this._serialize_with();
-    }
-
-    _serialize_self() {
+    _serialize_data() {
         return {};
     }
 
-    _serialize_with(...others) {
-        const result = this._serialize_self();
+    _serialize_reference_data() {
+        return {};
+    }
 
-        for (const other of others) {
-            if (!other)
-                continue;
-            Object.assign(result, other.serialize());
-        }
-
-        return result;
+    serialize() {
+        return {
+            ...this._serialize_data(),
+            ...this._serialize_reference_data(),
+        };
     }
 
     static serializeList(objects) {
@@ -42,5 +37,18 @@ class BaseIdMapObject extends BaseMapObject {
     constructor(id, data, gamestate) {
         super(data, gamestate);
         this.id = id;
+    }
+
+    _serialize_id() {
+        return {
+            id: this.id,
+        };
+    }
+
+    serialize() {
+        return {
+            id: this.id,
+            ...super.serialize(),
+        };
     }
 }

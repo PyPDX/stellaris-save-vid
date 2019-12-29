@@ -17,6 +17,12 @@ class Hyperlane extends BaseMapObject {
         }
     }
 
+    _serialize_data() {
+        return {
+            color: this.color(),
+        };
+    }
+
     // --- reference fields ---
 
     star0Id() {
@@ -35,9 +41,8 @@ class Hyperlane extends BaseMapObject {
         return this._gamestate.stars[this.star1Id()];
     }
 
-    _serialize_self() {
+    _serialize_reference_data() {
         return {
-            color: this.color(),
             x1: this.star0().x(),
             y1: this.star0().y(),
             x2: this.star1().x(),
