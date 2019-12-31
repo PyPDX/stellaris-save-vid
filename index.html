@@ -12,6 +12,13 @@
 
 <body>
 <div>
+    <form id="s3" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+</div>
+
+<div>
     <input type="file" onchange="loadFile(this, Map.renderCallback('#map'));">
 
     <label>
@@ -36,6 +43,7 @@
     <svg id="map" width="768" height="768"></svg>
 </div>
 
+<script type="text/javascript" src="static/js/input/s3.js"></script>
 <script type="text/javascript" src="static/js/input/file.js"></script>
 <script type="text/javascript" src="static/js/input/resize.js"></script>
 
