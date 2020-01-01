@@ -22,26 +22,13 @@
 <div>
     <input type="file" onchange="loadFile(this, Map.renderCallback('#map'));">
 
-    <label>
-        <input type="radio" name="size" value="768" onclick="resize(768, '#map')" checked>
-        <span>768</span>
-    </label>
-    <label>
-        <input type="radio" name="size" value="1024" onclick="resize(1024, '#map')">
-        <span>1024</span>
-    </label>
-    <label>
-        <input type="radio" name="size" value="2048" onclick="resize(2048, '#map')">
-        <span>2048</span>
-    </label>
-    <label>
-        <input type="radio" name="size" value="4096" onclick="resize(4096, '#map')">
-        <span>4096</span>
-    </label>
+    <button onclick="zoom(1/1.1, '#map');">zoom -</button>
+    <button onclick="resetZoom('#map');">reset</button>
+    <button onclick="zoom(1.1, '#map');">zoom +</button>
 </div>
 
 <div>
-    <svg id="map" width="768" height="768"></svg>
+    <svg id="map"></svg>
 </div>
 
 <script type="text/javascript" src="static/js/input/s3.js"></script>

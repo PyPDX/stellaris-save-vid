@@ -4,3 +4,17 @@ function resize(size, selector) {
         .attr('height', size)
     ;
 }
+
+function zoom(multiplier, selector) {
+    const map = d3.select(selector);
+    const size = map.attr('width');
+    resize(size * multiplier, selector);
+}
+
+function resetZoom(selector) {
+    resize(window.innerWidth, selector);
+}
+
+$(() => {
+    resetZoom('#map');
+});
