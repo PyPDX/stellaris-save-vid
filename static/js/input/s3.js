@@ -8,6 +8,8 @@ $(() => {
     }
 
     const $form = $('form#s3');
+    const $status = $('span#processing-status');
+
     $form.submit(() => {
         const files = $form.find('input[name=file]')[0].files;
 
@@ -33,6 +35,7 @@ $(() => {
                         .done((response) => {
                             switch (response.status) {
                                 case 'success':
+                                    $status.html('');
                                     callback(response.url);
                                     return;
 
@@ -44,17 +47,19 @@ $(() => {
 
                                 case 'error':
                                 default:
+                                    $status.html('');
                                     alert('Conversion failed');
                                     return;
                             }
                         })
                         .fail(() => {
+                            $status.html('');
                             alert('Conversion failed');
                         })
                     ;
                 }
 
-
+                $status.html('Uploading...');
                 $.ajax({
                     type: 'POST',
                     url: response.url,
@@ -63,9 +68,11 @@ $(() => {
                     contentType: false,
                 })
                     .done(() => {
+                        $status.html('Processing... (this may take a few minutes)');
                         checkStatus(5000, downloadFile);
                     })
                     .fail(() => {
+                        $status.html('');
                         alert('Upload failed');
                     })
                 ;
