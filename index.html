@@ -11,21 +11,46 @@
 </head>
 
 <body>
-<div>
-    <form id="s3" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-        <span id="processing-status"></span>
-    </form>
-</div>
+<table>
+    <tbody>
+    <tr>
+        <td>1.</td>
+        <td>
+            <a href="README.md" target="_blank">README</a>
+        </td>
+    </tr>
 
-<div>
-    <input type="file" onchange="loadFile(this, Map.renderCallback('#map'));">
+    <tr>
+        <td>2.</td>
+        <td>
+            <span>Convert your save to JSON (if you haven't already)</span>
+        </td>
+        <td>
+            <form id="s3" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>
+        </td>
+        <td>
+            <span id="processing-status"></span>
+        </td>
+    </tr>
 
-    <button onclick="zoom(1/1.1, '#map');">zoom -</button>
-    <button onclick="resetZoom('#map');">reset</button>
-    <button onclick="zoom(1.1, '#map');">zoom +</button>
-</div>
+    <tr>
+        <td>3.</td>
+        <td>
+            <span>Open JSON file</span>
+        </td>
+        <td>
+            <input type="file" onchange="loadFile(this, Map.renderCallback('#map'));">
+
+            <button onclick="zoom(1/1.1, '#map');">zoom -</button>
+            <button onclick="resetZoom('#map');">reset</button>
+            <button onclick="zoom(1.1, '#map');">zoom +</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <div>
     <svg id="map"></svg>
