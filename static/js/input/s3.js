@@ -10,6 +10,12 @@ $(() => {
     const $form = $('form#s3');
     const $status = $('span#processing-status');
 
+    function reset(alertMsg) {
+        $status.html('');
+        $form.find('input').attr('disabled', false);
+        alertMsg && alert(alertMsg);
+    }
+
     $form.submit(() => {
         const files = $form.find('input[name=file]')[0].files;
 
@@ -18,6 +24,7 @@ $(() => {
             return false;
         }
 
+        $form.find('input').attr('disabled', true);
         $.get(API_ROOT + 'upload/')
             .done(response => {
                 const form = new FormData();
@@ -35,7 +42,7 @@ $(() => {
                         .done((response) => {
                             switch (response.status) {
                                 case 'success':
-                                    $status.html('');
+                                    $status.html('Success!');
                                     callback(response.url);
                                     return;
 
@@ -47,14 +54,12 @@ $(() => {
 
                                 case 'error':
                                 default:
-                                    $status.html('');
-                                    alert('Conversion failed');
+                                    reset('Conversion failed');
                                     return;
                             }
                         })
                         .fail(() => {
-                            $status.html('');
-                            alert('Conversion failed');
+                            reset('Conversion failed');
                         })
                     ;
                 }
@@ -72,13 +77,12 @@ $(() => {
                         checkStatus(5000, downloadFile);
                     })
                     .fail(() => {
-                        $status.html('');
-                        alert('Upload failed');
+                        reset('Upload failed');
                     })
                 ;
             })
             .fail(() => {
-                alert('Upload failed');
+                reset('Upload failed');
             })
         ;
 
