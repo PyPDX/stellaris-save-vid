@@ -1,5 +1,11 @@
 $(() => {
-    const API_ROOT = 'https://cqvuvlus83.execute-api.us-west-1.amazonaws.com/Prod/';
+    const API_ROOT = 'https://uub1w3mdvh.execute-api.us-east-1.amazonaws.com/Prod/';
+
+    function downloadFile(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.click();
+    }
 
     const $form = $('form#s3');
     $form.submit(() => {
@@ -10,12 +16,45 @@ $(() => {
             return false;
         }
 
-        $.get(API_ROOT + 'presign/')
+        $.get(API_ROOT + 'upload/')
             .done(response => {
                 const form = new FormData();
                 for (const [k, v] of Object.entries(response.fields))
                     form.append(k, v);
                 form.append('file', files[0]);
+
+                const key = response.fields.key;
+
+                function checkStatus(interval, callback) {
+                    $.get(
+                        API_ROOT + 'download/',
+                        {key: key},
+                    )
+                        .done((response) => {
+                            switch (response.status) {
+                                case 'success':
+                                    callback(response.url);
+                                    return;
+
+                                case 'processing':
+                                    setTimeout(() => {
+                                        checkStatus(interval, callback);
+                                    }, interval);
+                                    return;
+
+                                case 'error':
+                                default:
+                                    alert('Conversion failed');
+                                    return;
+                            }
+                        })
+                        .fail(() => {
+                            alert('Conversion failed');
+                        })
+                    ;
+                }
+
+
                 $.ajax({
                     type: 'POST',
                     url: response.url,
@@ -23,8 +62,8 @@ $(() => {
                     processData: false,
                     contentType: false,
                 })
-                    .done(response => {
-                        // TODO
+                    .done(() => {
+                        checkStatus(5000, downloadFile);
                     })
                     .fail(() => {
                         alert('Upload failed');
