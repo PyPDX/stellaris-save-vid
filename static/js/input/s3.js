@@ -54,12 +54,12 @@ $(() => {
 
                                 case 'error':
                                 default:
-                                    reset('Conversion failed');
+                                    reset('Processing failed!\nPlease upload a valid Stellaris save file.');
                                     return;
                             }
                         })
                         .fail(() => {
-                            reset('Conversion failed');
+                            reset('Network error');
                         })
                     ;
                 }
@@ -77,12 +77,12 @@ $(() => {
                         checkStatus(5000, downloadFile);
                     })
                     .fail(() => {
-                        reset('Upload failed');
+                        reset('Network error');
                     })
                 ;
             })
             .fail(() => {
-                reset('Upload failed');
+                reset('Network error');
             })
         ;
 
