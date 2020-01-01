@@ -128,7 +128,7 @@ class Map {
 
     static renderCallback(selector) {
         return data => {
-            const gamestate = new Gamestate(data);
+            const gamestate = new Gamestate(data.gamestate);
             const stars = BaseMapObject.serializeList(gamestate.starList());
             const hyperlanes = BaseMapObject.serializeList(gamestate.hyperlanes());
             const map = new Map(stars, hyperlanes);
