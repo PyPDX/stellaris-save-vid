@@ -29,6 +29,9 @@ class Star extends BaseIdMapObject {
 
     tooltip() {
         let tooltip = `${this.name()} (ID: ${this.id})`;
+        if (this.empire()) {
+            tooltip += `\nOwner:\n  ${this.empire().name()}`;
+        }
         if (this.precursors().length)
             tooltip += `\nPrecursors:`;
         for (const precursor of this.precursors())
