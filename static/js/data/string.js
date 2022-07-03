@@ -1,3 +1,3 @@
 function stripString(str) {
-    return str.substring(1, str.length - 1);
+    return str['key'].substring(1, str['key'].length - 1);
 }
